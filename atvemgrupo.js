@@ -1,10 +1,13 @@
-const readline = require('readline');
-const fs = require('fs');
+console.log("Seja bem vindo(a) ao node.js!!");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+const fs = require("fs");
+const path = require("path");
+const promptSync = require("prompt-sync")();
+
+
+let conteudo = fs.readFileSync("arquivo.txt","utf8");
+console.log(conteudo);
+
 
 const entregas = [];
 
