@@ -4,17 +4,17 @@ const prompt = require("prompt-sync")();
 let entregas = [];
 let continuar = "sim";
 
-while (continuar.toLowerCase() === "sim") {
+while (continuar === "sim" || continuar === "Sim") {
     console.log("\nCadastro de Entrega");
-    
+
     let nome = prompt("Nome do cliente: ");
     let endereco = prompt("Endereço do cliente: ");
     let distancia = parseFloat(prompt("Distância (km): "));
     let valorKM = parseFloat(prompt("Valor por km (R$): "));
-    let tipo = prompt("Tipo de entrega (normal ou urgente): ").toLowerCase();
+    let tipo = prompt("Tipo de entrega (normal ou urgente): ");
 
     let custo = distancia * valorKM;
-    if (tipo === "urgente") {
+    if (tipo === "urgente" || tipo === "Urgente") {
         custo *= 1.2; // acréscimo de 20%
     }
 
@@ -26,8 +26,9 @@ while (continuar.toLowerCase() === "sim") {
 let totalEntregas = entregas.length;
 let somaCustos = 0;
 
-for (let entrega of entregas) {
-    somaCustos += entrega.custo;
+// USANDO FOR TRADICIONAL (o mais fácil)
+for (let i = 0; i < entregas.length; i++) {
+    somaCustos += entregas[i].custo;
 }
 
 let mediaCusto = totalEntregas > 0 ? somaCustos / totalEntregas : 0;
@@ -36,7 +37,8 @@ let nomeArquivo = "historico_entregas.txt";
 let cabecalho = "Cliente\tEndereço\tDistância(km)\tR$/km\tTipo\t\tCusto(R$)\n";
 let conteudo = cabecalho;
 
-for (let entrega of entregas) {
+for (let i = 0; i < entregas.length; i++) {
+    let entrega = entregas[i];
     conteudo += `${entrega.nome}\t${entrega.endereco}\t${entrega.distancia}km\tR$${entrega.valorKM.toFixed(2)}\t${entrega.tipo}\t\tR$${entrega.custo.toFixed(2)}\n`;
 }
 
