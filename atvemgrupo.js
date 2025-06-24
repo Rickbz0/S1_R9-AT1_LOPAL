@@ -44,7 +44,7 @@ for (let i = 0; i < entregas; i++) {
 conteudo += `total de entregas: ${totalEntregas}`;
 conteudo += `valor total de todos os custos: ${somaCustos.toFixed(2)}`;
 
-fs.writeFileSync(nomeArquivo, conteudo, "utf8");
+fs.writeFileSync(nomeArquivo, conteudo, "utf-8");
 
 console.log("resumo das entregas:");
 console.log(`arquivo "${nomeArquivo}" salvo com sucesso.`);
