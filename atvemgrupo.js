@@ -23,11 +23,11 @@ while (continuar === "sim" || continuar === "Sim") {
     continuar = prompt("Deseja cadastrar outra entrega? (sim ou nao): ");
 }
 
-let totalEntregas = entregas.length;
+let totalEntregas = entregas.;
 let somaCustos = 0;
 
-// USANDO FOR TRADICIONAL (o mais fácil)
-for (let i = 0; i < entregas.length; i++) {
+
+for (let i = 0; i < entregas.; i++) {
     somaCustos += entregas[i].custo;
 }
 
@@ -37,7 +37,7 @@ let nomeArquivo = "historico_entregas.txt";
 let cabecalho = "Cliente\tEndereço\tDistância(km)\tR$/km\tTipo\t\tCusto(R$)\n";
 let conteudo = cabecalho;
 
-for (let i = 0; i < entregas.length; i++) {
+for (let i = 0; i < entregas.; i++) {
     let entrega = entregas[i];
     conteudo += `${entrega.nome}\t${entrega.endereco}\t${entrega.distancia}km\tR$${entrega.valorKM.toFixed(2)}\t${entrega.tipo}\t\tR$${entrega.custo.toFixed(2)}\n`;
 }
