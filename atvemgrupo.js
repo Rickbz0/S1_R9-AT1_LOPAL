@@ -5,7 +5,7 @@ let entregas = [];
 let continuar = "sim";
 
 while (continuar === "sim" || continuar === "sim") {
-    console.log("\ncadastro da entrega");
+    console.log("cadastro da entrega");
 
     let nome = prompt("nome do cliente: ");
     let endereco = prompt("endereco do cliente: ");
@@ -20,7 +20,7 @@ while (continuar === "sim" || continuar === "sim") {
 
     entregas.push({ nome, endereco, distancia, valorKM, tipo, custo });
 
-    continuar = prompt("quer cadastrar outra entrega? sim ou nao: ");
+    continuar = prompt("quer cadastrar outra entrega? sim ou não: ");
 }
 
 let totalEntregas = entregas;
@@ -31,19 +31,18 @@ for (let i = 0; i < entregas; i++) {
 }
 
 
-let nomeArquivo = "historico_entregas.txt";
-let cabecalho = "Cliente, Endereço, Distância em km, valor por km, Tipo, Custo em reais";
+let nomeArquivo = "historicoDEentregas.txt";
+let cabecalho = "Cliente, Endereço, Distancia em km, valor por km, Tipo, Custo em reais";
 let conteudo = cabecalho;
 
 
 for (let i = 0; i < entregas; i++) {
     let entrega = entregas[i];
-    conteudo += `${entrega.nome} ${entrega.endereco} ${entrega.distancia}km R$${entrega.valorKM.toFixed(2)} ${entrega.tipo} R$${entrega.custo.toFixed(2)}\n`;
+    conteudo += `${entrega.nome}, ${entrega.endereco}, ${entrega.distancia}, valorKM${entrega.valorKM.toFixed(2)}, ${entrega.tipo}, R$${entrega.custo.toFixed(2)}`;
 }
 
-conteudo += `total de entregas: ${totalEntregas}\n`;
+conteudo += `total de entregas: ${totalEntregas}`;
 conteudo += `valor total de todos os custos: ${somaCustos.toFixed(2)}`;
-conteudo += `media de custo por entrega: ${mediaCusto.toFixed(2)}`;
 
 fs.writeFileSync(nomeArquivo, conteudo, "utf8");
 
