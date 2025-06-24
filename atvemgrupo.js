@@ -1,63 +1,62 @@
-const readline = require('readline');
-const fs = require('fs');
+const fs = require("fs");
+const prompt = require("prompt-sync")();
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
-const entregas = [];
+let entregas = [];
 
-function perguntar(texto) {
-  return new Promise(resolve => rl.question(texto, resp => resolve(resp)));
-}
+let continuar = "sim";
 
-async function main() {
-  console.log('sistema de calculo de entregas');
+while (continuar === "sim") {
+    console.log("\nCadastro de Entrega");
 
-  while (true) {
-    const nome = await perguntar('nome do cliente ou "sair" para encerrar: ');
-    if (nome.toLowerCase() === 'sair') break;
+    let nome = prompt("Nome do cliente:");
+    let endereco = prompt("Endereço do cliente:");
+    let distancia = parseFloat(prompt("Distancia km:"));
+    let valorKM = parseFloat(prompt("Valor por km R$:"));
+    let tipo = prompt("Tipo de entrega normal ou urgente:");
 
-    const endereco = await perguntar('Endereço do cliente: ');
-    const distancia = parseFloat(await perguntar('Distância da entrega (km): '));
-    const valorKm = parseFloat(await perguntar('Valor cobrado por km: '));
-    let tipo = await perguntar('Tipo de entrega ("normal" ou "urgente"): ');
-    tipo = tipo.toLowerCase() === 'urgente' ? 'urgente' : 'normal';
+    let custo = distancia * valorKM;
 
-    let custo = distancia * valorKm;
-    if (tipo === 'urgente') {
-      custo *= 1.2; 
+    if (tipo === "urgente") {
+        custo += custo * 0.2; 
     }
-    custo = parseFloat(custo.toFixed(2)); 
 
-    const registro = { nome, endereco, distancia, valorKm, tipo, custo };
-    entregas.push(registro);
 
-    console.log('\nresumo da entrega');
-    console.log(`cliente: ${nome}`);
-    console.log(`endereço: ${endereco}`);
-    console.log(`distância: ${distancia} km`);
-    console.log(`valor por km: R$ ${valorKm.toFixed(2)}`);
-    console.log(`tipo: ${tipo}`);
-    console.log(`custo total: R$ ${custo.toFixed(2)}\n`);
-  }
+    let entrega = {
+        nome,
+        endereco,
+        distancia,
+        valorKM,
+        tipo,
+        custo
+    };
 
-  rl.close();
+    
+    entregas[entregas] = entrega;
 
-  const total = entregas.length;
-  const soma = entregas.reduce((acc, e) => acc + e.custo, 0);
-  const media = total ? (soma / total).toFixed(2) : 0;
-
-  console.log('\nrelatorio Final');
-  console.log(`total de entregas realizadas: ${total}`);
-  console.log(`media de custo por entrega: R$ ${media}`);
-
-  const historico = entregas.map(e =>
-    `${e.nome};${e.endereco};${e.distancia};${e.valorKm};${e.tipo};${e.custo}`
-  ).join('\n') + '\n';
-  fs.appendFileSync('historicoentregas.txt', historico);
-  console.log('historico registrado em "historicoentregas.txt".');
+    continuar = prompt("\nDeseja cadastrar outra entrega? sim ou nao: ");
 }
 
-main();
+
+let totalEntregas = entregas;
+let somaCustos = 0;
+
+for (let i = 0; i < entregas; i++) {
+    somaCustos += entregas[i].custo;
+}
+
+
+let nomeArquivo = "historico_entregas.txt";
+let cabecalho = "Cliente\tEndereço\tDistância(km)\tR$/km\tTipo\t\tCusto(R$)\n";
+let conteudo = cabecalho;
+
+for (let i = 0; i < entregas; i++) {
+    let e = entregas[i];
+    conteudo += `${e.nome} ${e.endereco} ${e.distancia}km R$${e.valorKM.toFixed(2)} ${e.tipo} R$${e.custo.toFixed(2)}\n`;
+}
+
+conteudo += \nTotal de entregas: ${totalEntregas};
+conteudo += \nValor total de todos os custos: R$${somaCustos.toFixed(2)}\n;
+
+fs.writeFileSync(nomeArquivo, conteudo, "utf8");
+console.log("\nresumo da entrega:", nomeArquivo);
